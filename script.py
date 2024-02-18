@@ -1,20 +1,22 @@
 import os
 from collections import Counter
 import socket
+import re
 
 # Function to count words in a file and find the top 3 most common words
 def process_file(file_path):
-    with open(file_path, 'r') as file:
-        text = file.read()
-        words = text.split()
-        word_count = len(words)
+    with open(file_path, 'r', encoding='utf-8') as file:
+        # Read the file, convert to lowercase, and remove non-alphanumeric characters
+        text = file.read().lower()
+        words = re.findall(r'\b\w+\b', text)
+        word_count = re.findall(r"[\w']+", text)
         top_three_words = Counter(words).most_common(3)
-    return word_count, top_three_words
+    return len(word_count), top_three_words
 
 # Define directories
 data_dir = "/app/home/data"
 output_dir = "/app/home/output"
-output_file_path = os.path.join(output_dir, "result.txt")
+output_file_path = os.path.join(output_dir, "result1.txt")
 
 # Ensure output directory exists
 os.makedirs(output_dir, exist_ok=True)
